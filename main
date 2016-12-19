@@ -1,0 +1,100 @@
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
+import java.io.*;
+
+public class principal extends JFrame {
+bloque [][] matriz;
+public void llena(){
+int i=0;
+int j=0;
+char d;
+
+try{
+
+File arch =new File("Laberinto.txt");
+FileReader archin=new FileReader(arch);
+int caracter = 'L';
+
+while (true){
+caracter=archin.read();
+
+
+
+if ((char)caracter=='P' || (char)caracter=='L' || (char)caracter=='E' ||(char)caracter=='S' )
+{ 
+if (caracter=='P')
+matriz[j][i]=new pared(j,i);
+
+if (caracter=='L')
+matriz[j][i]=new espacio(j,i);
+
+if (caracter=='E')
+{
+matriz[j][i]=new Inicio(j,i);
+}
+
+if (caracter=='S')
+matriz[j][i]=new Fin(j,i);
+
+j++;
+if (j>39)
+{
+i++;
+j=0;
+}
+
+}
+
+if (caracter==-1)
+break;
+
+
+}
+
+
+archin.close();
+}catch(Exception e){}
+}
+
+
+public void emprime(Graphics g)
+{
+for (int a=0; a<matriz.length; a++)
+{
+for (int b=0; b<matriz.length; b++)
+if(matriz[a][b]!=null)
+matriz[a][b].dibujar(g);
+}
+
+}
+
+public principal()
+{ 
+super("Juego de Laberinto");
+
+getContentPane().setBackground(Color.white);
+setSize(830,860);
+matriz = new bloque[40][40]; 
+llena();
+setVisible(true);
+}
+
+
+public void paint(Graphics g)
+{
+
+super.paint(g);
+emprime(g);
+
+}
+
+public static void main(String []arrg)
+{ 
+
+principal Laberinto=new principal(); 
+
+Laberinto.setDefaultCloseOperation(JFrame.EXIT_ON_ CLOSE);
+} 
+
+}
